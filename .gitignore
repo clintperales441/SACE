@@ -1,0 +1,49 @@
+# Maven
+backend/target/
+backend/pom.xml.tag
+backend/pom.xml.releaseBackup
+backend/pom.xml.versionsBackup
+backend/pom.xml.next
+backend/release.properties
+backend/dependency-reduced-pom.xml
+backend/buildNumber.properties
+backend/.mvn/timing.properties
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Application properties with secrets (keep example only)
+backend/src/main/resources/application-local.properties
+
