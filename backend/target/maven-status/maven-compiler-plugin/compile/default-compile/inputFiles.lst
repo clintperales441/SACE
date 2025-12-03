@@ -1,0 +1,15 @@
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\repository\UserRepository.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\SaceBackendApplication.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\controller\AuthController.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\dto\UserDTO.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\dto\GoogleLoginRequest.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\security\JwtAuthenticationFilter.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\dto\SignupRequest.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\security\OAuth2AuthenticationSuccessHandler.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\security\JwtTokenProvider.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\entity\User.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\dto\AuthResponse.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\service\UserService.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\security\JwtAuthenticationEntryPoint.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\config\SecurityConfig.java
+C:\Users\Japeth Luke Fuentes\Desktop\CAPSTONE\backend\src\main\java\com\sace\dto\LoginRequest.java

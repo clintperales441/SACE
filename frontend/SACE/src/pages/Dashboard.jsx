@@ -4,6 +4,7 @@ import '../styles/Dashboard.css'
 
 function Dashboard() {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -15,7 +16,15 @@ function Dashboard() {
       return
     }
 
-    setUser(JSON.parse(storedUser))
+    try {
+      const userData = JSON.parse(storedUser)
+      setUser(userData)
+    } catch (err) {
+      console.error('Error parsing user data:', err)
+      navigate('/login')
+    } finally {
+      setLoading(false)
+    }
   }, [navigate])
 
   const handleLogout = () => {
@@ -24,8 +33,16 @@ function Dashboard() {
     navigate('/login')
   }
 
+  if (loading) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading">Loading...</div>
+      </div>
+    )
+  }
+
   if (!user) {
-    return <div>Loading...</div>
+    return null
   }
 
   return (
@@ -52,6 +69,16 @@ function Dashboard() {
             <p><strong>Name:</strong> {user.name}</p>
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Role:</strong> {user.role || 'User'}</p>
+            <p><strong>Provider:</strong> {user.provider || 'Local'}</p>
+            {user.profileImageUrl && (
+              <div className="profile-image">
+                <img 
+                  src={user.profileImageUrl} 
+                  alt="Profile" 
+                  style={{ maxWidth: '100px', borderRadius: '8px' }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </main>
