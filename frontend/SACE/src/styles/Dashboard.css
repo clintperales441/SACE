@@ -1,0 +1,117 @@
+.dashboard-container {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(180deg, #F5F5F5 0%, #FFFAF0 100%);
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background: linear-gradient(90deg, #8B4513 0%, #FFD700 50%, #8B4513 100%);
+  color: white;
+  padding: 25px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar-brand {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.user-name {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.logout-btn:hover {
+  background-color: rgba(255, 215, 0, 0.3);
+  border-color: #FFD700;
+}
+
+.dashboard-main {
+  padding: 60px 80px;
+  max-width: 100%;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  margin-bottom: 60px;
+}
+
+.dashboard-header h1 {
+  color: #8B4513;
+  margin-bottom: 20px;
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.dashboard-header p {
+  color: #666;
+  font-size: 18px;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 40px;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-left: 6px solid #FFD700;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+  color: #8B4513;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.card p {
+  color: #555;
+  margin: 15px 0;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.card strong {
+  color: #8B4513;
+  font-weight: 600;
+}
