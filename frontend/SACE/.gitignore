@@ -27,3 +27,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+/backend/target/
+/backend/build/
+*.jar
+*.class
