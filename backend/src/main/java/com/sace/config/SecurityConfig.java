@@ -52,15 +52,11 @@ public class SecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login", "/api/auth/google").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/auth/user/**").permitAll()
                     .requestMatchers("/api/**").authenticated()
                     .anyRequest().permitAll()
-            )
-            .oauth2Login(oauth2Login ->
-                oauth2Login
-                    .defaultSuccessUrl("/dashboard", true)
             );
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
