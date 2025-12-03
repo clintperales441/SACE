@@ -25,19 +25,20 @@ backend/.mvn/wrapper/maven-wrapper.jar
 *.tar.gz
 *.rar
 
-# IDE
-.idea/
-*.iml
-*.iws
-*.ipr
-.vscode/
-*.swp
-*.swo
-*~
+# Node.js & JavaScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/
 
-# OS
-.DS_Store
-Thumbs.db
+# Frontend build outputs
+frontend/SACE/dist/
+frontend/SACE/build/
+frontend/SACE/.vite/
+dist/
+build/
 
 # Environment variables
 .env
@@ -47,3 +48,55 @@ Thumbs.db
 # Application properties with secrets (keep example only)
 backend/src/main/resources/application-local.properties
 
+# Secrets and PowerShell scripts with credentials
+*secret*
+*SECRET*
+FIX-SECRETS-COMPLETE.ps1
+verify-clean.ps1
+*.ps1
+
+# IDE and Editor files
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
