@@ -151,3 +151,129 @@ button:disabled {
   color: #8B4513;
   text-decoration: underline;
 }
+
+/* Google Login Styles */
+.google-login-section {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #E8E8E8;
+}
+
+.divider::before {
+  margin-right: 15px;
+}
+
+.divider::after {
+  margin-left: 15px;
+}
+
+.google-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  padding: 15px 0;
+}
+
+.google-button-wrapper > div {
+  width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+
+/* Link Button Style */
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #FFD700;
+  font-weight: 700;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline;
+  width: auto;
+}
+
+.link-button:hover {
+  color: #8B4513;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .login-box {
+    padding: 50px 30px;
+    max-width: 90%;
+  }
+
+  .login-box h1 {
+    font-size: 36px;
+    margin-bottom: 5px;
+  }
+
+  .login-box h2 {
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .divider span {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-box {
+    padding: 30px 20px;
+    border-top: 8px solid #FFD700;
+    border-bottom: 8px solid #8B4513;
+  }
+
+  .login-box h1 {
+    font-size: 28px;
+  }
+
+  .login-box h2 {
+    font-size: 18px;
+  }
+
+  .form-group input {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+}
