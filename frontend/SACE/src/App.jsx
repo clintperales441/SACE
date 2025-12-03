@@ -4,8 +4,8 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import './App.css'
 
-// Google OAuth Client ID
-const GOOGLE_CLIENT_ID = '742815630040-7o1redrna3nfr61giflrhch9erinf8a2.apps.googleusercontent.com'
+// Google OAuth Client ID - use environment variable or fallback
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '742815630040-7o1redrna3nfr61giflrhch9erinf8a2.apps.googleusercontent.com'
 
 function App() {
   return (
