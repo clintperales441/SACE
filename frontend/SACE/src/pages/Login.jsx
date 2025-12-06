@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ChevronLeft, ChevronRight, Sparkles, FileCheck, Zap } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,6 +33,7 @@ const features = [
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login, googleLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -40,14 +42,10 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
 
-  const API_BASE_URL = 'http://localhost:8080';
-  const axiosInstance = axios.create({
-    baseURL: API_BASE_URL
-  });
-
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentFeatureIndex((prev) => (prev + 2) % features.length);
+      // Cycle through features: 0 -> 2 -> 0... (showing features[0/1] then features[2/3])
+      setCurrentFeatureIndex((prev) => (prev === 0 ? 2 : 0));
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -57,34 +55,44 @@ const Login = () => {
     setError('');
     setLoading(true);
 
-    try {
-      const response = await axiosInstance.post('/api/auth/login', {
-        email,
-        password,
-      });
+    const result = await login({ email, password });
 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-
+    if (result.success) {
       navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
-    } finally {
-      setLoading(false);
+    } else {
+      setError(result.error);
     }
+
+    setLoading(false);
   };
 
-  const handleGoogleLogin = () => {
-    // Placeholder for Google OAuth - would need @react-oauth/google provider setup
-    setError('Google login is not configured yet. Please use email/password.');
+  // Handler for successful Google login
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setError('');
+    setLoading(true);
+
+    const result = await googleLogin(credentialResponse);
+
+    if (result.success) {
+      navigate('/dashboard');
+    } else {
+      setError(result.error);
+    }
+
+    setLoading(false);
+  };
+
+  // 3. Handler for failed Google login
+  const handleGoogleError = () => {
+    setError('Google sign-in failed. Please try again or use email/password.');
   };
 
   const goToPreviousFeature = () => {
-    setCurrentFeatureIndex((prev) => (prev - 2 + features.length) % features.length);
+    setCurrentFeatureIndex((prev) => (prev === 0 ? 2 : 0));
   };
 
   const goToNextFeature = () => {
-    setCurrentFeatureIndex((prev) => (prev + 2) % features.length);
+    setCurrentFeatureIndex((prev) => (prev === 2 ? 0 : 2));
   };
 
   const visibleFeatures = [
@@ -97,7 +105,8 @@ const Login = () => {
       <section className="section-padding min-h-[calc(100vh-200px)] flex items-center">
         <div className="container-main">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left Side - Branding */}
+            
+            {/* Left Side - Branding (No change) */}
             <div className="hidden lg:block">
               <div className="max-w-lg">
                 <h1 className="font-display text-4xl xl:text-5xl font-bold text-foreground leading-tight mb-6">
@@ -109,7 +118,7 @@ const Login = () => {
                   their requirements engineering workflow with SACE.
                 </p>
 
-                {/* Feature carousel */}
+                {/* Feature carousel (No change) */}
                 <div className="relative">
                   <div className="flex gap-4">
                     {visibleFeatures.map((feature, idx) => {
@@ -171,20 +180,16 @@ const Login = () => {
                   </p>
                 </div>
 
-                {/* Google Login */}
-                <Button
-                  variant="outline"
-                  className="w-full mb-6 h-12"
-                  onClick={handleGoogleLogin}
-                >
-                  <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                  </svg>
-                  Continue with Google
-                </Button>
+                {/* 4. Google Login Component Integration */}
+                <div className="w-full mb-6 h-12">
+                  {/* Note: The GoogleLogin component is slightly less flexible for custom styling, 
+                     so we rely on its default button appearance here. width="384" matches max-w-md. */}
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    width="384"
+                  />
+                </div>
 
                 <div className="relative mb-6">
                   <div className="absolute inset-0 flex items-center">
@@ -196,6 +201,7 @@ const Login = () => {
                 </div>
 
                 <form onSubmit={handleLogin} className="space-y-4">
+                  {/* Email Input (No change) */}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Email</label>
                     <div className="relative">
@@ -211,6 +217,7 @@ const Login = () => {
                     </div>
                   </div>
 
+                  {/* Password Input (No change) */}
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-foreground">Password</label>
                     <div className="relative">
@@ -233,6 +240,7 @@ const Login = () => {
                     </div>
                   </div>
 
+                  {/* Checkbox and Forgot Password (No change) */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Checkbox
@@ -249,17 +257,20 @@ const Login = () => {
                     </Link>
                   </div>
 
+                  {/* Error Message (No change) */}
                   {error && (
                     <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-lg">
                       {error}
                     </div>
                   )}
 
+                  {/* Submit Button (No change) */}
                   <Button type="submit" variant="hero" className="w-full h-12" disabled={loading}>
                     {loading ? 'Signing in...' : 'Sign In'}
                   </Button>
                 </form>
 
+                {/* Sign Up Link (No change) */}
                 <p className="text-center text-sm text-muted-foreground mt-6">
                   Don't have an account?{' '}
                   <Link to="/register" className="text-primary font-medium hover:underline">

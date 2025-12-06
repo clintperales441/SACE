@@ -1,13 +1,14 @@
 import { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, Check, X } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const Register = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -17,11 +18,6 @@ const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const API_BASE_URL = 'http://localhost:8080';
-  const axiosInstance = axios.create({
-    baseURL: API_BASE_URL
-  });
 
   const passwordRequirements = useMemo(() => {
     const { password } = formData;
@@ -55,23 +51,22 @@ const Register = () => {
 
     setLoading(true);
 
-    try {
-      const response = await axiosInstance.post('/api/auth/signup', {
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        password: formData.password,
-        passwordConfirm: formData.password
-      });
+    const userData = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+      passwordConfirm: formData.password
+    };
 
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
+    const result = await register(userData);
 
+    if (result.success) {
       navigate('/dashboard');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed. Please try again.');
-    } finally {
-      setLoading(false);
+    } else {
+      setError(result.error);
     }
+
+    setLoading(false);
   };
 
   return (

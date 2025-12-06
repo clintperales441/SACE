@@ -1,12 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Moon, Sun, LogIn, Rocket, Menu, X } from 'lucide-react';
+import { Moon, Sun, LogIn, Rocket, Menu, X, User, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const Header = () => {
   const [isDark, setIsDark] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, logout, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
@@ -25,6 +35,20 @@ const Header = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
+
+  const getInitials = (name) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
@@ -51,24 +75,57 @@ const Header = () => {
           >
             {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
-          
-          <Button
-            variant="outline"
-            onClick={() => navigate('/login')}
-            className="gap-2"
-          >
-            <LogIn className="h-4 w-4" />
-            Sign In
-          </Button>
-          
-          <Button
-            variant="hero"
-            onClick={() => navigate('/register')}
-            className="gap-2"
-          >
-            <Rocket className="h-4 w-4" />
-            Get Started
-          </Button>
+
+          {isAuthenticated && user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="gap-2">
+                  <Avatar className="w-6 h-6">
+                    <AvatarImage src={user.profileImageUrl} alt={user.name} />
+                    <AvatarFallback className="text-xs">
+                      {getInitials(user.name || user.email)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="hidden lg:inline">{user.name?.split(' ')[0]}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                  {user.email}
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                  <User className="mr-2 h-4 w-4" />
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                onClick={() => navigate('/login')}
+                className="gap-2"
+              >
+                <LogIn className="h-4 w-4" />
+                Sign In
+              </Button>
+
+              <Button
+                variant="hero"
+                onClick={() => navigate('/register')}
+                className="gap-2"
+              >
+                <Rocket className="h-4 w-4" />
+                Get Started
+              </Button>
+            </>
+          )}
         </div>
 
         {/* Mobile menu button */}
