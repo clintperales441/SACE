@@ -38,7 +38,7 @@ public class UserService {
             .email(signupRequest.getEmail())
             .password(passwordEncoder.encode(signupRequest.getPassword()))
             .provider("LOCAL")
-            .role("STUDENT")
+            .role(signupRequest.getRole() != null ? signupRequest.getRole() : "STUDENT")
             .build();
 
         return userRepository.save(user);

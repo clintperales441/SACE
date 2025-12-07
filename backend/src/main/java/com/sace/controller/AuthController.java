@@ -172,7 +172,7 @@ public class AuthController {
                         .lastName(lastName)
                         .googleId(googleId)
                         .provider("GOOGLE")
-                        .role("USER")
+                        .role("STUDENT")
                         .isActive(true)
                         .profileImageUrl(tokenInfo.getPicture())
                         .password(null) // OAuth users don't have passwords
