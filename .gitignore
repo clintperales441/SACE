@@ -47,6 +47,7 @@ build/
 
 # Application properties with secrets (keep example only)
 backend/src/main/resources/application-local.properties
+backend/src/main/resources/application.properties
 
 # Secrets and PowerShell scripts with credentials
 *secret*
