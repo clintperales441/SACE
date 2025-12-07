@@ -238,7 +238,7 @@ const StudentDashboard = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate('/submissions')}>
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Upload className="h-5 w-5" />
