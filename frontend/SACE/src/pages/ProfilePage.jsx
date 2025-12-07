@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
-import { 
-  User, Mail, Shield, Calendar, Edit2, Save, X, 
-  Camera, LogOut 
+import { userAPI } from '@/lib/api';
+import {
+  User, Mail, Shield, Calendar, Edit2, Save, X,
+  Camera, LogOut, Key, ShieldCheck, Trash2
 } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,14 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -22,10 +31,19 @@ const ProfilePage = () => {
     firstName: '',
     lastName: '',
     email: '',
+    password: '',
   });
   const [updateError, setUpdateError] = useState('');
   const [updateSuccess, setUpdateSuccess] = useState('');
   const [updating, setUpdating] = useState(false);
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [deleting, setDeleting] = useState(false);
 
   // Initialize edit form when profile loads
   useState(() => {
@@ -61,11 +79,7 @@ const ProfilePage = () => {
     setUpdateSuccess('');
 
     try {
-      // TODO: Implement update API call
-      // await axios.put(`/api/users/me`, editForm, {
-      //   headers: { Authorization: `Bearer ${token}` }
-      // });
-      
+      await userAPI.updateCurrentUser(editForm);
       setUpdateSuccess('Profile updated successfully!');
       setIsEditing(false);
       refetch();
@@ -79,6 +93,62 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     await logout();
     navigate('/login');
+  };
+
+  const handleChangePassword = () => {
+    setPasswordForm({
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    });
+    setShowPasswordDialog(true);
+  };
+
+  const handlePasswordSubmit = async () => {
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setUpdateError('New passwords do not match');
+      return;
+    }
+
+    if (passwordForm.newPassword.length < 6) {
+      setUpdateError('New password must be at least 6 characters long');
+      return;
+    }
+
+    setUpdating(true);
+    setUpdateError('');
+    setUpdateSuccess('');
+
+    try {
+      await userAPI.changePassword({
+        currentPassword: passwordForm.currentPassword,
+        newPassword: passwordForm.newPassword,
+      });
+      setUpdateSuccess('Password changed successfully!');
+      setShowPasswordDialog(false);
+    } catch (err) {
+      setUpdateError(err.response?.data?.message || 'Failed to change password');
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleDeleteAccount = () => {
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteSubmit = async () => {
+    setDeleting(true);
+    try {
+      await userAPI.deleteCurrentUser();
+      await logout();
+      navigate('/login');
+    } catch (err) {
+      setUpdateError(err.response?.data?.message || 'Failed to delete account');
+      setShowDeleteDialog(false);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const getInitials = (firstName, lastName) => {
@@ -248,6 +318,15 @@ const ProfilePage = () => {
                           type="email"
                         />
                       </div>
+                      <div className="space-y-2 sm:col-span-2">
+                        <label className="text-sm font-medium">New Password (optional)</label>
+                        <Input
+                          value={editForm.password}
+                          onChange={(e) => setEditForm({ ...editForm, password: e.target.value })}
+                          placeholder="Leave blank to keep current password"
+                          type="password"
+                        />
+                      </div>
                     </div>
                   ) : (
                     // View Mode
@@ -314,7 +393,10 @@ const ProfilePage = () => {
                     Update your password to keep your account secure
                   </p>
                 </div>
-                <Button variant="outline">Change</Button>
+                <Button onClick={handleChangePassword} variant="outline" className="gap-2">
+                  <Key className="h-4 w-4" />
+                  Change
+                </Button>
               </div>
 
               <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -324,7 +406,10 @@ const ProfilePage = () => {
                     Add an extra layer of security to your account
                   </p>
                 </div>
-                <Button variant="outline">Enable</Button>
+                <Button variant="outline" disabled className="gap-2">
+                  <ShieldCheck className="h-4 w-4" />
+                  Coming Soon
+                </Button>
               </div>
 
               <div className="flex items-center justify-between p-4 border rounded-lg border-destructive/50">
@@ -334,12 +419,84 @@ const ProfilePage = () => {
                     Permanently delete your account and all data
                   </p>
                 </div>
-                <Button variant="destructive">Delete</Button>
+                <Button onClick={handleDeleteAccount} variant="destructive" className="gap-2">
+                  <Trash2 className="h-4 w-4" />
+                  Delete
+                </Button>
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      {/* Password Change Dialog */}
+      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change Password</DialogTitle>
+            <DialogDescription>
+              Enter your current password and choose a new secure password.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Current Password</label>
+              <Input
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                placeholder="Enter current password"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">New Password</label>
+              <Input
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                placeholder="Enter new password"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Confirm New Password</label>
+              <Input
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                placeholder="Confirm new password"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPasswordDialog(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handlePasswordSubmit} disabled={updating}>
+              {updating ? 'Updating...' : 'Update Password'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Account Dialog */}
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Account</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete your account? This action cannot be undone and will permanently remove all your data.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowDeleteDialog(false)}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleDeleteSubmit} disabled={deleting}>
+              {deleting ? 'Deleting...' : 'Delete Account'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

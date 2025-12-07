@@ -45,4 +45,10 @@ export const authAPI = {
   getUser: (email) => api.get(`/api/auth/user/${email}`),
 };
 
+export const userAPI = {
+  updateCurrentUser: (userData) => api.put('/api/users/me', userData),
+  changePassword: (passwordData) => api.put('/api/users/me/password', passwordData),
+  deleteCurrentUser: () => api.delete('/api/users/me'),
+};
+
 export default api;
