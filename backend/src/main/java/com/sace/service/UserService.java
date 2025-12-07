@@ -82,4 +82,13 @@ public class UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
+
+    /**
+     * Delete user by ID
+     * @param id User ID
+     */
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+        log.info("Deleted user with ID: {}", id);
+    }
 }
