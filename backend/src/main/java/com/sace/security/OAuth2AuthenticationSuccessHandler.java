@@ -21,16 +21,22 @@ public class OAuth2AuthenticationSuccessHandler extends DefaultOAuth2UserService
         OAuth2User oAuth2User = super.loadUser(userRequest);
         
         String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
+        String fullName = oAuth2User.getAttribute("name");
         String googleId = oAuth2User.getName();
         String profileImageUrl = oAuth2User.getAttribute("picture");
+
+        // Split name into first and last
+        String[] nameParts = fullName != null ? fullName.split(" ", 2) : new String[]{"Google", "User"};
+        String firstName = nameParts[0];
+        String lastName = nameParts.length > 1 ? nameParts[1] : "";
 
         User user = userRepository.findByGoogleId(googleId)
             .orElseGet(() -> {
                 User newUser = User.builder()
                     .googleId(googleId)
                     .email(email)
-                    .name(name)
+                    .firstName(firstName)
+                    .lastName(lastName)
                     .profileImageUrl(profileImageUrl)
                     .provider("GOOGLE")
                     .role("USER")

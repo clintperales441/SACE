@@ -123,6 +123,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Get user role
+   */
+  const getRole = () => {
+    return user?.role || null;
+  };
+
+  /**
+   * Check if user has a specific role
+   * @param {string} requiredRole - Required role to check
+   * @returns {boolean}
+   */
+  const hasRole = (requiredRole) => {
+    return user?.role === requiredRole;
+  };
+
+  /**
+   * Get stored token
+   */
+  const token = localStorage.getItem('token');
+
   const value = {
     user,
     loading,
@@ -131,6 +152,9 @@ export const AuthProvider = ({ children }) => {
     register,
     googleLogin,
     logout,
+    getRole,
+    hasRole,
+    token,
   };
 
   return (

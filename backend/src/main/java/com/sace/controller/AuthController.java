@@ -39,7 +39,7 @@ public class AuthController {
     public ResponseEntity<?> signup(@Valid @RequestBody SignupRequest signupRequest) {
         try {
             User user = userService.signup(signupRequest);
-            String token = tokenProvider.generateToken(user.getEmail());
+            String token = tokenProvider.generateToken(user.getEmail(), user.getRole(), user.getId());
             
             AuthResponse response = AuthResponse.of(token, user);
             return ResponseEntity.ok(response);
@@ -55,7 +55,7 @@ public class AuthController {
         Optional<User> user = userService.login(loginRequest);
         
         if (user.isPresent()) {
-            String token = tokenProvider.generateToken(user.get().getEmail());
+            String token = tokenProvider.generateToken(user.get().getEmail(), user.get().getRole(), user.get().getId());
             AuthResponse response = AuthResponse.of(token, user.get());
             return ResponseEntity.ok(response);
         }
@@ -72,7 +72,8 @@ public class AuthController {
         if (user.isPresent()) {
             UserDTO userDTO = UserDTO.builder()
                 .id(user.get().getId())
-                .name(user.get().getName())
+                .firstName(user.get().getFirstName())
+                .lastName(user.get().getLastName())
                 .email(user.get().getEmail())
                 .profileImageUrl(user.get().getProfileImageUrl())
                 .role(user.get().getRole())
@@ -132,8 +133,14 @@ public class AuthController {
                 log.info("Existing Google user found: {}", user.getEmail());
                 
                 // Update user info in case it changed (e.g., profile picture, name)
-                if (tokenInfo.getName() != null && !tokenInfo.getName().equals(user.getName())) {
-                    user.setName(tokenInfo.getName());
+                if (tokenInfo.getName() != null) {
+                    String[] nameParts = tokenInfo.getName().split(" ", 2);
+                    String firstName = nameParts[0];
+                    String lastName = nameParts.length > 1 ? nameParts[1] : "";
+                    if (!firstName.equals(user.getFirstName()) || !lastName.equals(user.getLastName())) {
+                        user.setFirstName(firstName);
+                        user.setLastName(lastName);
+                    }
                 }
                 if (tokenInfo.getPicture() != null && !tokenInfo.getPicture().equals(user.getProfileImageUrl())) {
                     user.setProfileImageUrl(tokenInfo.getPicture());
@@ -154,9 +161,15 @@ public class AuthController {
                     log.info("Linked Google account to existing user: {}", user.getEmail());
                 } else {
                     // Create new user with actual Google data
+                    String fullName = tokenInfo.getName() != null ? tokenInfo.getName() : "Google User";
+                    String[] nameParts = fullName.split(" ", 2);
+                    String firstName = nameParts[0];
+                    String lastName = nameParts.length > 1 ? nameParts[1] : "";
+                    
                     user = User.builder()
                         .email(tokenInfo.getEmail())
-                        .name(tokenInfo.getName() != null ? tokenInfo.getName() : "Google User")
+                        .firstName(firstName)
+                        .lastName(lastName)
                         .googleId(googleId)
                         .provider("GOOGLE")
                         .role("USER")
@@ -165,12 +178,12 @@ public class AuthController {
                         .password(null) // OAuth users don't have passwords
                         .build();
                     user = userService.saveUser(user);
-                    log.info("New Google user created: {} ({})", user.getEmail(), user.getName());
+                    log.info("New Google user created: {} ({} {})", user.getEmail(), user.getFirstName(), user.getLastName());
                 }
             }
             
-            // Generate JWT token
-            String jwtToken = tokenProvider.generateToken(user.getEmail());
+            // Generate JWT token with role and userId
+            String jwtToken = tokenProvider.generateToken(user.getEmail(), user.getRole(), user.getId());
             AuthResponse response = AuthResponse.of(jwtToken, user);
             return ResponseEntity.ok(response);
             

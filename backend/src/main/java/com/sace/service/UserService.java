@@ -33,11 +33,12 @@ public class UserService {
         }
 
         User user = User.builder()
-            .name(signupRequest.getName())
+            .firstName(signupRequest.getFirstName())
+            .lastName(signupRequest.getLastName())
             .email(signupRequest.getEmail())
             .password(passwordEncoder.encode(signupRequest.getPassword()))
             .provider("LOCAL")
-            .role("USER")
+            .role("STUDENT")
             .build();
 
         return userRepository.save(user);
@@ -71,5 +72,14 @@ public class UserService {
 
     public Optional<User> findByGoogleId(String googleId) {
         return userRepository.findByGoogleId(googleId);
+    }
+
+    /**
+     * Get user by ID
+     * @param id User ID
+     * @return Optional<User>
+     */
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 }

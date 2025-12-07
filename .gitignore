@@ -46,6 +46,7 @@ build/
 .env.*.local
 
 # Application properties with secrets (keep example only)
+backend/src/main/resources/application.properties
 backend/src/main/resources/application-local.properties
 
 # Secrets and PowerShell scripts with credentials

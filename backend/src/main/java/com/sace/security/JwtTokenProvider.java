@@ -20,6 +20,27 @@ public class JwtTokenProvider {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
+    /**
+     * Generate JWT token with email and role
+     * @param email User email
+     * @param role User role (STUDENT, INSTRUCTOR, USER)
+     * @param userId User ID
+     * @return JWT token
+     */
+    public String generateToken(String email, String role, Long userId) {
+        return Jwts.builder()
+            .subject(email)
+            .claim("role", role)
+            .claim("userId", userId)
+            .issuedAt(new Date())
+            .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
+            .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+            .compact();
+    }
+
+    /**
+     * Generate token with just email (backward compatibility)
+     */
     public String generateToken(String email) {
         return Jwts.builder()
             .subject(email)
@@ -36,6 +57,34 @@ public class JwtTokenProvider {
             .parseSignedClaims(token)
             .getPayload()
             .getSubject();
+    }
+
+    /**
+     * Extract role from JWT token
+     * @param token JWT token
+     * @return User role
+     */
+    public String getRoleFromJwt(String token) {
+        Claims claims = Jwts.parser()
+            .verifyWith(getSigningKey())
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+        return claims.get("role", String.class);
+    }
+
+    /**
+     * Extract user ID from JWT token
+     * @param token JWT token
+     * @return User ID
+     */
+    public Long getUserIdFromJwt(String token) {
+        Claims claims = Jwts.parser()
+            .verifyWith(getSigningKey())
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+        return claims.get("userId", Long.class);
     }
 
     public boolean validateToken(String token) {

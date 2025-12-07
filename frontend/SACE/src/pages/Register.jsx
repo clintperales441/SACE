@@ -52,7 +52,8 @@ const Register = () => {
     setLoading(true);
 
     const userData = {
-      name: `${formData.firstName} ${formData.lastName}`,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
       passwordConfirm: formData.password
