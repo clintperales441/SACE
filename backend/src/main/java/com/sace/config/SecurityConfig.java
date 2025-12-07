@@ -26,6 +26,9 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    private com.sace.security.CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -47,15 +50,27 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exceptionHandling ->
-                exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                exceptionHandling
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler))
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
+                    // Public endpoints
                     .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login", "/api/auth/google").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/auth/user/**").permitAll()
+                    .requestMatchers("/h2-console/**").permitAll()
+                    
+                    // Role-based endpoint restrictions
+                    .requestMatchers("/api/instructor/**").hasRole("INSTRUCTOR")
+                    .requestMatchers("/api/student/**").hasRole("STUDENT")
+                    
+                    // Authenticated endpoints
+                    .requestMatchers("/api/users/**").authenticated()
                     .requestMatchers("/api/**").authenticated()
+                    
                     .anyRequest().permitAll()
             );
 

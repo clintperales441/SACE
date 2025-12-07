@@ -1,26 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogOut, User, Mail, Shield, UserCheck } from 'lucide-react';
+import InstructorDashboard from './InstructorDashboard';
+import StudentDashboard from './StudentDashboard';
 import Layout from '@/components/layout/Layout';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { user, logout, loading } = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     if (!loading && !user) {
       navigate('/login');
     }
   }, [user, loading, navigate]);
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/login');
-  };
 
   if (loading) {
     return (
@@ -39,13 +32,36 @@ const Dashboard = () => {
     return null;
   }
 
-  const getInitials = (name) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
+  // Route to specific dashboard based on role
+  if (user.role === 'INSTRUCTOR') {
+    return <InstructorDashboard />;
+  }
+
+  if (user.role === 'STUDENT') {
+    return <StudentDashboard />;
+  }
+
+  // Default dashboard for USER or other roles
+  return <DefaultDashboard />;
+};
+
+// Default dashboard for users without specific roles
+const DefaultDashboard = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  
+  const { LogOut, User, Mail, Shield, UserCheck } = require('lucide-react');
+  const { Button } = require('@/components/ui/button');
+  const { Card, CardContent, CardHeader, CardTitle } = require('@/components/ui/card');
+  const { Avatar, AvatarFallback, AvatarImage } = require('@/components/ui/avatar');
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
+
+  const getInitials = (firstName, lastName) => {
+    return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase();
   };
 
   return (
@@ -56,7 +72,7 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
               <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
-                Welcome back, {user.name?.split(' ')[0]}!
+                Welcome back, {user.firstName}!
               </h1>
               <p className="text-muted-foreground">
                 You are successfully logged in to your SACE dashboard
@@ -84,9 +100,9 @@ const Dashboard = () => {
               <div className="flex flex-col sm:flex-row gap-6">
                 <div className="flex flex-col items-center sm:items-start">
                   <Avatar className="w-20 h-20 mb-4">
-                    <AvatarImage src={user.profileImageUrl} alt={user.name} />
+                    <AvatarImage src={user.profileImageUrl} alt={`${user.firstName} ${user.lastName}`} />
                     <AvatarFallback className="text-lg">
-                      {getInitials(user.name || user.email)}
+                      {getInitials(user.firstName, user.lastName)}
                     </AvatarFallback>
                   </Avatar>
                 </div>
@@ -97,7 +113,7 @@ const Dashboard = () => {
                       <User className="h-4 w-4 text-muted-foreground" />
                       <div>
                         <p className="text-sm text-muted-foreground">Full Name</p>
-                        <p className="font-medium">{user.name}</p>
+                        <p className="font-medium">{user.firstName} {user.lastName}</p>
                       </div>
                     </div>
 
