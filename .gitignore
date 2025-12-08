@@ -103,3 +103,5 @@ temp/
 *.bak
 *.backup
 
+server.port=8080
+server.servlet.context-path=/
