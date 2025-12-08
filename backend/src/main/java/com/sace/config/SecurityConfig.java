@@ -74,27 +74,32 @@ public class SecurityConfig {
                     .accessDeniedHandler(customAccessDeniedHandler))
             .sessionManagement(sessionManagement ->
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authorizeRequests ->
-                authorizeRequests
-                    // Public endpoints
-                    .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login", "/api/auth/google").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/api/auth/user/**").permitAll()
-                    .requestMatchers("/h2-console/**").permitAll()
-                    
-                    // Submissions endpoints - require authentication
-                    .requestMatchers("/submissions/**").authenticated()
-                    
-                    // Role-based endpoint restrictions
-                    .requestMatchers("/api/instructor/**").hasRole("INSTRUCTOR")
-                    .requestMatchers("/api/student/**").hasRole("STUDENT")
-                    
-                    // Authenticated endpoints
-                    .requestMatchers("/api/users/**").authenticated()
-                    .requestMatchers("/api/**").authenticated()
-                    
-                    .anyRequest().permitAll()
-            );
+                
+// Made changes here
+
+.authorizeHttpRequests(authorizeRequests ->
+    authorizeRequests
+        // Public endpoints
+        .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login", "/api/auth/google").permitAll()
+        .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
+        .requestMatchers(HttpMethod.GET, "/api/auth/user/**").permitAll()
+        .requestMatchers("/h2-console/**").permitAll()
+        
+        // Submissions endpoints
+        .requestMatchers(HttpMethod.POST, "/submissions/**").hasRole("STUDENT")  // Only students can submit
+        .requestMatchers(HttpMethod.DELETE, "/submissions/**").hasRole("STUDENT")  // Only students can delete
+        .requestMatchers(HttpMethod.GET, "/submissions/**").hasAnyRole("STUDENT", "INSTRUCTOR")  // Both can view
+        
+        // Role-based endpoint restrictions
+        .requestMatchers("/api/instructor/**").hasRole("INSTRUCTOR")
+        .requestMatchers("/api/student/**").hasRole("STUDENT")
+        
+        // Authenticated endpoints
+        .requestMatchers("/api/users/**").authenticated()
+        .requestMatchers("/api/**").authenticated()
+        
+        .anyRequest().permitAll()
+);
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
