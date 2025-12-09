@@ -26,12 +26,12 @@ logging.level.org.springframework.web=INFO
 logging.level.org.hibernate=WARN
 
 # JWT Configuration
-jwt.secret=nQw8Fv3C2pRZyM5sK7gL6u1xY4V8bJdQ0hP+9t6a4R7kS2vF1Zy8Xw3TqB6uJrVm
+jwt.secret=your-jwt-secret-here-change-this-to-a-secure-random-string
 jwt.expiration=86400000
 
 # Google OAuth2 Configuration
-spring.security.oauth2.client.registration.google.client-id=742815630040-7o1redrna3nfr61giflrhch9erinf8a2.apps.googleusercontent.com
-spring.security.oauth2.client.registration.google.client-secret=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
+spring.security.oauth2.client.registration.google.client-id=your-google-client-id-here
+spring.security.oauth2.client.registration.google.client-secret=your-google-client-secret-here
 spring.security.oauth2.client.registration.google.scope=profile,email
 spring.security.oauth2.client.provider.google.user-name-attribute=sub
 
@@ -44,8 +44,8 @@ spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=10MB
 
 # Gemini AI Configuration
-gemini.api.key=AIzaSyCmmxKzxbEV4nkjxklkKcO08X11KMVO8S0
+gemini.api.key=your-gemini-api-key-here
 gemini.api.model=gemini-2.5-flash
 
 # Server configuration
-server.port=8080
+spring.devtools.restart.enabled=true
