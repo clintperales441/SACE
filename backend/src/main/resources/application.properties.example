@@ -6,8 +6,8 @@ spring.application.name=SACE Backend
 
 # PostgreSQL Configuration
 spring.datasource.url=jdbc:postgresql://localhost:5432/sace_db
-spring.datasource.username=srs_users
-spring.datasource.password=admin
+spring.datasource.username=sace_user
+spring.datasource.password=12345678
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 # JPA/Hibernate Configuration
@@ -32,6 +32,7 @@ jwt.expiration=86400000
 # Google OAuth2 Configuration
 spring.security.oauth2.client.registration.google.client-id=your-google-client-id-here
 spring.security.oauth2.client.registration.google.client-secret=your-google-client-secret-here
+
 spring.security.oauth2.client.registration.google.scope=profile,email
 spring.security.oauth2.client.provider.google.user-name-attribute=sub
 
