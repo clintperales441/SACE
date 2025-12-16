@@ -358,7 +358,7 @@ const SubmissionPage = () => {
                             className="bg-primary hover:bg-primary/90 pointer-events-none"
                             size="sm"
                           >
-                            Browse...
+                            Browse
                           </Button>
                           <span className="text-sm text-muted-foreground">
                             {selectedFile ? selectedFile.name : 'No file selected.'}
