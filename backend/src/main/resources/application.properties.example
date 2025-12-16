@@ -6,8 +6,8 @@ spring.application.name=SACE Backend
 
 # PostgreSQL Configuration
 spring.datasource.url=jdbc:postgresql://localhost:5432/sace_db
-spring.datasource.username=srs_users
-spring.datasource.password=admin
+spring.datasource.username=sace_user
+spring.datasource.password=12345678
 spring.datasource.driver-class-name=org.postgresql.Driver
 
 # JPA/Hibernate Configuration
@@ -26,12 +26,13 @@ logging.level.org.springframework.web=INFO
 logging.level.org.hibernate=WARN
 
 # JWT Configuration
-jwt.secret=your-jwt-secret-here-change-this-to-a-secure-random-string
+jwt.secret=your_jwt_secret_here
 jwt.expiration=86400000
 
 # Google OAuth2 Configuration
-spring.security.oauth2.client.registration.google.client-id=your-google-client-id-here
-spring.security.oauth2.client.registration.google.client-secret=your-google-client-secret-here
+spring.security.oauth2.client.registration.google.client-id=insert_your_client_id_here.apps.googleusercontent.com
+spring.security.oauth2.client.registration.google.client-secret=insert_your_client_secret_here
+
 spring.security.oauth2.client.registration.google.scope=profile,email
 spring.security.oauth2.client.provider.google.user-name-attribute=sub
 
@@ -44,7 +45,7 @@ spring.servlet.multipart.max-file-size=10MB
 spring.servlet.multipart.max-request-size=10MB
 
 # Gemini AI Configuration
-gemini.api.key=your-gemini-api-key-here
+gemini.api.key=your_gemini_api_key_here
 gemini.api.model=gemini-2.5-flash
 
 # Server configuration

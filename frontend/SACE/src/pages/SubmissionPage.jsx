@@ -500,13 +500,27 @@ const SubmissionPage = () => {
                   <div className="space-y-4">
                     <div>
                       <Label htmlFor="file">Select PDF or DOCX file (max 10MB)</Label>
-                      <Input
-                        id="file"
-                        type="file"
-                        accept=".pdf,.docx"
-                        onChange={(e) => setSelectedFile(e.target.files[0])}
-                        className="mt-1"
-                      />
+                      <div className="relative mt-1">
+                        <Input
+                          id="file"
+                          type="file"
+                          accept=".pdf,.docx"
+                          onChange={(e) => setSelectedFile(e.target.files[0])}
+                          className="opacity-0 absolute inset-0 w-full h-full cursor-pointer z-10"
+                        />
+                        <div className="flex items-center gap-3 border rounded-md p-2 bg-white">
+                          <Button
+                            type="button"
+                            className="bg-primary hover:bg-primary/90 pointer-events-none"
+                            size="sm"
+                          >
+                            Browse
+                          </Button>
+                          <span className="text-sm text-muted-foreground">
+                            {selectedFile ? selectedFile.name : 'No file selected.'}
+                          </span>
+                        </div>
+                      </div>
                       {selectedFile && (
                         <p className="text-sm text-muted-foreground mt-1">
                           Selected: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
