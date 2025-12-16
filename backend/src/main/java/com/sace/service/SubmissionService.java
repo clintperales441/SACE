@@ -305,6 +305,13 @@ public class SubmissionService {
                 .collect(Collectors.toList());
     }
 
+    public List<SubmissionDTO> getAllSubmissions() {
+        // Get all submissions for instructors
+        return submissionRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public Optional<SubmissionDTO> getSubmissionById(User user, Long id) {
         // If user is null from controller, get from SecurityContext
         if (user == null) {
@@ -410,6 +417,22 @@ public class SubmissionService {
             log.error("Error analyzing with Gemini AI: {}", e.getMessage());
             // Fallback to basic section detection if Gemini fails
             return detectSections(extractedText);
+        }
+    }
+
+    public SubmissionDTO updateSubmissionStatus(Long submissionId, String status) {
+        Submission submission = submissionRepository.findById(submissionId)
+                .orElseThrow(() -> new IllegalArgumentException("Submission not found with id: " + submissionId));
+
+        try {
+            Submission.SubmissionStatus newStatus = Submission.SubmissionStatus.valueOf(status.toUpperCase());
+            submission.setStatus(newStatus);
+            Submission updatedSubmission = submissionRepository.save(submission);
+            log.info("Updated submission {} status to {}", submissionId, status);
+            return convertToDTO(updatedSubmission);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(
+                    "Invalid status: " + status + ". Valid statuses are: SUBMITTED, UNDER_REVIEW, APPROVED, REJECTED");
         }
     }
 
