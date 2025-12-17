@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   LogOut, User, Mail, Shield, UserCheck, 
-  BookOpen, FileText, Award, Calendar, 
-  Upload, GraduationCap, BarChart3, Settings
+  BookOpen, FileText, Award, Calendar,CheckCircle, 
+  Upload, BarChart3, Settings,
+  GraduationCap
 } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -162,34 +163,34 @@ const StudentDashboard = () => {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start gap-2">
-              <div className="mt-0.5 h-5 w-5 rounded border-2 border-foreground/70 flex items-center justify-center flex-shrink-0">
-                <div className="h-2 w-2 bg-foreground/70 rounded-sm"></div>
+              <div className="mt-0.5 h-5 w-5 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-foreground/70" />
               </div>
               <span className="text-sm">Completeness</span>
             </div>
             <div className="flex items-start gap-2">
-              <div className="mt-0.5 h-5 w-5 rounded border-2 border-foreground/70 flex items-center justify-center flex-shrink-0">
-                <div className="h-2 w-2 bg-foreground/70 rounded-sm"></div>
+              <div className="mt-0.5 h-5 w-5 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-foreground/70" />
               </div>
               <span className="text-sm">Consistency</span>
             </div>
             <div className="flex items-start gap-2">
-              <div className="mt-0.5 h-5 w-5 rounded border-2 border-foreground/70 flex items-center justify-center flex-shrink-0">
-                <div className="h-2 w-2 bg-foreground/70 rounded-sm"></div>
+              <div className="mt-0.5 h-5 w-5 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-foreground/70" />
               </div>
               <span className="text-sm">IEEE 830-1998 and ISO/IEC 29148</span>
             </div>
             <div className="flex items-start gap-2">
-              <div className="mt-0.5 h-5 w-5 rounded border-2 border-foreground/70 flex items-center justify-center flex-shrink-0">
-                <div className="h-2 w-2 bg-foreground/70 rounded-sm"></div>
+              <div className="mt-0.5 h-5 w-5 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-foreground/70" />
               </div>
               <span className="text-sm">Ambiguity Detection</span>
             </div>
             <div className="flex items-start gap-2">
-              <div className="mt-0.5 h-5 w-5 rounded border-2 border-foreground/70 flex items-center justify-center flex-shrink-0">
-                <div className="h-2 w-2 bg-foreground/70 rounded-sm"></div>
+              <div className="mt-0.5 h-5 w-5 flex items-center justify-center flex-shrink-0">
+                <CheckCircle className="h-5 w-5 text-foreground/70" />
               </div>
-              <span className="text-sm">Image check</span>
+              <span className="text-sm">Image Check</span>
             </div>
           </CardContent>
         </Card>

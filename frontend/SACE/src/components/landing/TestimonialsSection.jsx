@@ -9,7 +9,7 @@ const testimonials = [
     school: "Stanford University",
   },
   {
-    statement: "As an instructor, I've seen my students' SRS quality improve dramatically. SACE makes learning requirements engineering engaging.",
+    statement: "As an instructor, I've seen my students' SRS quality improve dramatically.",
     name: "Dr. Michael Roberts",
     school: "MIT",
   },

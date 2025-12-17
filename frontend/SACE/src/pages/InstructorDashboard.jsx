@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
-  FileText, BarChart3, Settings, Filter, TrendingUp, CheckCircle, AlertCircle, RefreshCw, Eye
+  FileText, BarChart3, Settings, Filter, TrendingUp, CheckCircle, X, RefreshCw, Eye
 } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -412,7 +412,7 @@ const InstructorDashboard = () => {
                                     disabled={updatingStatus === submission.id || submission.status?.toLowerCase() === 'rejected' || submission.status?.toLowerCase() === 'declined'}
                                     title="Decline"
                                   >
-                                    <AlertCircle className="h-4 w-4" />
+                                    <X className="h-4 w-4" />
                                   </Button>
                                 </div>
                               </td>
