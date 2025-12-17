@@ -1,28 +1,28 @@
 const teamMembers = [
   {
-    name: "Alex Rivera",
-    role: "Founder & CEO",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-  },
-  {
-    name: "Sarah Kim",
-    role: "CTO",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&crop=face",
-  },
-  {
-    name: "Michael Chen",
-    role: "Lead AI Engineer",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
-  },
-  {
-    name: "Emily Watson",
-    role: "Head of Product",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
-  },
-  {
-    name: "David Park",
+    name: "Clint Perales",
     role: "Lead Developer",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
+    image: "ClintPeralesPicture.jpg",
+  },
+  {
+    name: "Yusuf Oswa",
+    role: "Lead AI Engineer",
+    image: "YusufOswaPicture.jpg",
+  },
+  {
+    name: "Japeth Luke Fuentes",
+    role: "Developer",
+    image: "JapethFuentesPicture.jpg",
+  },
+  {
+    name: "Nicolo Francis Gabiana",
+    role: "Developer",
+    image: "NicoloGabianaPicture.jpg",
+  },
+  {
+    name: "Dante Ygot",
+    role: "Developer",
+    image: "DanteYgotPicture.jpg",
   },
 ];
 

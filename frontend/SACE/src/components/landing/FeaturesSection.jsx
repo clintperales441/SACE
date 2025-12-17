@@ -16,29 +16,30 @@ const features = [
   {
     icon: CheckCircle,
     title: 'Compliance Checking',
-    description: 'Automatically verify your requirements against industry standards and best practices.',
+    description: 'Automatically verify your requirements against IEEE and ISO standards.',
   },
   {
     icon: Zap,
     title: 'Instant Feedback',
-    description: 'Receive actionable suggestions and improvements in real-time work.',
+    description: 'Receive structured, section-level suggestions generated through AI-assisted analysis.',
   },
   {
     icon: Users,
-    title: 'Collaboration Tools',
-    description: 'Share documents with your team and collaborate on requirement refinements.',
+    title: 'Instructor-Guided Collaboration',
+    description: 'Instructors review, edit, and approve AI-generated feedback to ensure academic accuracy.',
   },
   {
     icon: BarChart3,
-    title: 'Analytics Dashboard',
-    description: 'Track your progress and see detailed metrics about your document quality.',
+    title: 'Evaluation Insights',
+    description: 'View grading breakdowns and feedback summaries aligned with rubric expectations.',
   },
   {
-    icon: Shield,
-    title: 'Secure & Private',
-    description: 'Your documents are encrypted and protected with enterprise-grade security.',
-  },
+  icon: Shield,
+  title: 'Privacy & Data Protection',
+  description: 'Academic data is protected through secure processing and controlled access.',
+},
 ];
+
 
 const FeaturesSection = () => {
   return (

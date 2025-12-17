@@ -10,68 +10,109 @@ const Privacy = () => {
               <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-8 text-center">
                 Privacy Policy
               </h1>
-              
+
               <div className="prose prose-lg max-w-none text-muted-foreground">
-                <p className="mb-6">
-                  Last updated
+                <p className="mb-6 text-center">
+                  <strong>System:</strong> S.A.C.E – SRS AI-Powered Checking Engine<br />
+                  <strong>Institution:</strong> Cebu Institute of Technology – University<br />
+                  <strong>Last Updated:</strong> September 2025
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  1. Information We Collect
+                  1. Introduction
                 </h2>
                 <p className="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute 
-                  irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                  pariatur.
+                  This Privacy Policy explains how S.A.C.E (SRS AI-Powered Checking Engine)
+                  collects, uses, stores, and protects personal and academic data. SACE is a web-based
+                  academic system designed to assist students and instructors in evaluating Software
+                  Requirements Specification (SRS) documents based on IEEE and ISO standards.
+                </p>
+                <p className="mb-4">
+                  This system is developed strictly for academic and educational purposes and complies
+                  with the Philippine Data Privacy Act of 2012 (Republic Act No. 10173).
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  2. How We Use Your Information
+                  2. Information We Collect
+                </h2>
+                <p className="mb-2">
+                  We collect only the minimum data necessary to operate the system:
+                </p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Full name and email address</li>
+                  <li>User role (Student or Instructor)</li>
+                  <li>SRS documents submitted in PDF or DOCX format</li>
+                  <li>Document metadata (file name, size, submission date, version history)</li>
+                  <li>AI-generated analysis results and feedback</li>
+                  <li>Instructor comments and approval status</li>
+                  <li>Basic technical data such as browser type and IP address (for security only)</li>
+                </ul>
+
+                <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
+                  3. How We Use Your Information
                 </h2>
                 <p className="mb-4">
-                  Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-                  mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim 
-                  veniam, quis nostrud exercitation ullamco laboris.
+                  Collected information is used exclusively to:
+                </p>
+                <ul className="list-disc pl-6 mb-4">
+                  <li>Authenticate users via Google OAuth or email login</li>
+                  <li>Enforce role-based access control</li>
+                  <li>Analyze SRS documents using AI</li>
+                  <li>Generate structured evaluation feedback</li>
+                  <li>Allow instructors to review and approve results</li>
+                  <li>Maintain system security and academic integrity</li>
+                </ul>
+                <p className="mb-4">
+                  SACE does not use personal data for marketing, advertising, or commercial purposes.
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  3. Data Security
+                  4. AI Processing and Human Oversight
                 </h2>
                 <p className="mb-4">
-                  Nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in 
-                  voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat 
-                  cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                  SACE uses Google Gemini AI to analyze SRS documents. AI-generated feedback is provided
+                  as a recommendation only. Final academic decisions remain under full instructor
+                  control, and no evaluation is made solely by automated means.
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  4. Third-Party Services
+                  5. Data Storage and Security
                 </h2>
                 <p className="mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
-                  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  Data is securely stored using Supabase (PostgreSQL). We apply industry-standard
+                  safeguards, including HTTPS encryption, authentication tokens, role-based access
+                  control, and row-level security.
+                </p>
+                <p className="mb-4">
+                  SRS documents are retained only for the duration of the academic term and are deleted
+                  within 30 days after the end of the semester.
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  5. Your Rights
+                  6. Third-Party Services
                 </h2>
                 <p className="mb-4">
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
-                  fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-                  qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, 
-                  consectetur adipiscing elit.
+                  SACE integrates third-party services such as Google OAuth, Google Drive API, Google
+                  Gemini AI, Supabase, and Vercel. Only the minimum data required for functionality is
+                  shared with these services, which operate under their own privacy policies.
                 </p>
 
                 <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
-                  6. Contact Us
+                  7. Your Rights
                 </h2>
                 <p className="mb-4">
-                  If you have any questions about this Privacy Policy, please contact us at 
-                  privacy@sace.com. We are committed to working with you to obtain a fair resolution 
-                  of any complaint or concern about privacy.
+                  In accordance with the Data Privacy Act of 2012, you have the right to be informed,
+                  access your data, request corrections, request deletion (subject to academic
+                  requirements), and file a complaint with the National Privacy Commission.
+                </p>
+
+                <h2 className="font-display text-xl font-semibold text-foreground mt-8 mb-4">
+                  8. Contact Us
+                </h2>
+                <p className="mb-4">
+                  If you have questions or concerns regarding this Privacy Policy or your data, you may
+                  contact us at <strong>privacy@sace.com</strong>. We are committed to resolving privacy
+                  concerns fairly and in compliance with applicable laws.
                 </p>
               </div>
             </div>

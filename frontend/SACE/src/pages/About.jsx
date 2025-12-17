@@ -18,7 +18,7 @@ const About = () => {
             About <span className="text-gradient">SACE</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.1s' }}>
-            Revolutionizing Learning Through Intelligent AI Checking
+            Revolutionizing SRS Checking Through Intelligent AI Solutions
           </p>
         </div>
       </section>

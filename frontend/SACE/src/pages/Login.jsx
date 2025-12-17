@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ChevronLeft, ChevronRight, Sparkles, FileCheck, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ChevronLeft, ChevronRight, CheckCircle, FileSearch, Zap, Users, BarChart3, Shield} from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/layout/Layout';
@@ -10,26 +10,37 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 const features = [
   {
-    icon: Sparkles,
-    title: 'AI-Powered Analysis',
-    description: 'Get instant feedback on your SRS documents with advanced AI.',
+    icon: FileSearch,
+    title: 'Smart Document Analysis',
+    description: 'AI analyzes SRS structure, grammar, and clarity.',
   },
   {
-    icon: FileCheck,
+    icon: CheckCircle,
     title: 'Compliance Checking',
-    description: 'Ensure your requirements meet industry standards.',
+    description: 'Verifies requirements against IEEE and ISO standards.',
   },
   {
     icon: Zap,
-    title: 'Real-time Collaboration',
-    description: 'Work together with your team seamlessly.',
+    title: 'Instant Feedback',
+    description: 'Section-level AI-assisted improvement suggestions.',
   },
   {
-    icon: Sparkles,
-    title: 'Smart Suggestions',
-    description: 'Receive actionable improvements for clarity.',
+    icon: Users,
+    title: 'Instructor-Guided Review',
+    description: 'Instructors validate and approve AI feedback.',
+  },
+  {
+    icon: BarChart3,
+    title: 'Evaluation Insights',
+    description: 'View rubric-based grading and feedback summaries.',
+  },
+  {
+    icon: Shield,
+    title: 'Privacy & Data Protection',
+    description: 'Academic data is securely processed and protected.',
   },
 ];
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,12 +54,15 @@ const Login = () => {
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      // Cycle through features: 0 -> 2 -> 0... (showing features[0/1] then features[2/3])
-      setCurrentFeatureIndex((prev) => (prev === 0 ? 2 : 0));
-    }, 5000);
-    return () => clearInterval(interval);
+  const interval = setInterval(() => {
+    setCurrentFeatureIndex((prev) =>
+      prev === 0 ? 2 : prev === 2 ? 4 : 0
+    );
+  }, 5000);
+
+  return () => clearInterval(interval);
   }, []);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -88,12 +102,17 @@ const Login = () => {
   };
 
   const goToPreviousFeature = () => {
-    setCurrentFeatureIndex((prev) => (prev === 0 ? 2 : 0));
+  setCurrentFeatureIndex((prev) =>
+    prev === 0 ? 4 : prev - 2
+  );
   };
 
   const goToNextFeature = () => {
-    setCurrentFeatureIndex((prev) => (prev === 2 ? 0 : 2));
+    setCurrentFeatureIndex((prev) =>
+      prev === 4 ? 0 : prev + 2
+    );
   };
+
 
   const visibleFeatures = [
     features[currentFeatureIndex],
@@ -149,7 +168,7 @@ const Login = () => {
                     </Button>
                     
                     <div className="flex gap-2">
-                      {[0, 2].map((idx) => (
+                      {[0, 2, 4].map((idx) => (
                         <button
                           key={idx}
                           onClick={() => setCurrentFeatureIndex(idx)}
@@ -159,6 +178,7 @@ const Login = () => {
                         />
                       ))}
                     </div>
+
 
                     <Button variant="ghost" size="icon" onClick={goToNextFeature} className="rounded-full">
                       <ChevronRight className="h-5 w-5" />
